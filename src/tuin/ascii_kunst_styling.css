@@ -1,0 +1,60 @@
+/* ASCII Kunst Terminal Styling */
+.ascii-kunst-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: rgb(10, 10, 10);
+  font-family: 'CATelecopy-Regular', 'Courier New', monospace;
+  overflow: hidden;
+}
+
+/* Scanlines effect */
+.ascii-kunst-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 11px,
+    rgba(20, 20, 20, 0.15) 12px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ASCII text styling */
+.ascii-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
+  position: absolute;
+  z-index: 2;
+}
+
+/* Focus intensity effects */
+.ascii-text.focus-intense {
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 1);
+}
+
+.ascii-text.focus-glow {
+  text-shadow: 0 0 3px rgba(0, 255, 100, 0.4);
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Evolution stage indicators */
+.evolution-marker {
+  color: rgba(0, 255, 100, 0.8);
+  text-shadow: 0 0 2px rgba(0, 255, 100, 0.5);
+}
+
+.neural-marker {
+  color: rgba(255, 100, 0, 0.8);
+  text-shadow: 0 0 2px rgba(255, 100, 0, 0.5);
+}

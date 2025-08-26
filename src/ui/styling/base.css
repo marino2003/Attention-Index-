@@ -1,0 +1,869 @@
+/* Focus Garden Installation Styles */
+
+:root {
+  /* Color variables */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-tertiary: rgba(255, 255, 255, 0.7);
+  --border-primary: rgba(255, 255, 255, 0.15);
+  --border-secondary: rgba(255, 255, 255, 0.1);
+  
+  /* Typography */
+  --font-primary: 'Courier New', monospace;
+  --font-catelecopty: 'CATelecopy-Regular', 'Courier New', monospace;
+  --font-catelecopty-bold: 'CATelecopy-Bold', 'Courier New', monospace;
+  --font-catelecopty-medium: 'CATelecopy-Medium', 'Courier New', monospace;
+  
+  /* Common layouts */
+  --gradient-radial: radial-gradient(circle at center, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  --gradient-vignette: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.3) 100%);
+  
+  /* Sizing */
+  --border-radius-small: 2px;
+  --border-radius-medium: 6px;
+  --border-radius-large: 8px;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  overflow: hidden;
+  cursor: none; /* Hide cursor for installation feel */
+}
+
+#installation-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--gradient-radial);
+  /* Hide initially until main application starts */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+  cursor: none; /* Ensure cursor is hidden on main page */
+  
+  /* Add CRT screen effect */
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+#installation-container.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#installation-container::before {
+  /* CRT scanlines effect */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(255, 255, 255, 0.03) 2px,
+    rgba(255, 255, 255, 0.03) 3px
+  );
+  pointer-events: none;
+  z-index: 10;
+  animation: scanline 0.3s linear infinite;
+}
+
+#installation-container::after {
+  /* CRT vignette effect */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-vignette);
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(3px); }
+}
+
+#focus-point {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+#focus-point.focused {
+  border-color: #ffffff;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+#p5-canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* Hide initially until main application starts */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-slow), visibility var(--transition-slow);
+}
+
+#p5-canvas-container.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#tracking-feedback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+#gaze-indicator {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: opacity var(--transition-fast), background-color var(--transition-medium), box-shadow var(--transition-medium), transform var(--transition-fast);
+  pointer-events: none;
+}
+
+#gaze-indicator.visible {
+  opacity: 1;
+}
+
+/* Enhanced gaze indicator states */
+#gaze-indicator.focused {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+#installation-ui {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  z-index: 200;
+  font-family: var(--font-catelecopty);
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  background: linear-gradient(135deg, 
+    rgba(15, 20, 25, 0.7) 0%, 
+    rgba(20, 25, 30, 0.5) 50%,
+    rgba(15, 20, 25, 0.7) 100%);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--border-radius-small);
+  padding: 15px;
+  backdrop-filter: blur(8px);
+  box-shadow: 
+    0 0 25px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  max-width: 280px;
+}
+
+#focus-info {
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-secondary);
+  padding-bottom: 12px;
+}
+
+#focus-info div {
+  margin-bottom: 6px;
+  padding: 4px 0;
+  border-left: 2px solid transparent;
+  transition: all var(--transition-medium);
+}
+
+#focus-info div:hover {
+  border-left-color: rgba(255, 255, 255, 0.3);
+  padding-left: 8px;
+}
+
+/* Surveillance data collection panel */
+#data-collection-panel {
+  margin-top: 15px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 15, 20, 0.4);
+  border-radius: 1px;
+}
+
+#data-collection-panel div {
+  margin-bottom: 5px;
+  padding: 3px 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.3s ease;
+}
+
+#data-collection-panel div:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* System status indicators */
+#data-collection-status {
+  color: rgba(0, 255, 100, 0.8) !important;
+}
+
+#behavior-profile {
+  color: rgba(255, 200, 0, 0.8) !important;
+}
+
+#attention-value {
+  color: rgba(255, 100, 100, 0.8) !important;
+  font-weight: bold;
+}
+
+/* Subtle attention monetization footer */
+#attention-footer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  font-family: 'CATelecopy-Regular', 'Courier New', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+#attention-footer:hover {
+  opacity: 0.9;
+}
+
+#attention-value-footer {
+  color: rgba(255, 200, 0, 0.5);
+}
+
+#value-counter {
+  color: rgba(255, 150, 0, 0.7);
+  font-weight: bold;
+}
+
+#processing-status {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 10px;
+}
+
+/* NEW: Dystopian hidden elements */
+#productivity-index,
+#engagement-score,
+#neural-signal,
+#compliance-indicator {
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: rgba(20, 0, 0, 0.6);
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  border-radius: 2px;
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  line-height: 1.2;
+  display: none; /* Hidden by default */
+  transition: all 0.3s ease;
+}
+
+/* Corporate warning styling */
+#compliance-indicator {
+  background: rgba(40, 10, 0, 0.7);
+  border-color: rgba(255, 150, 0, 0.4);
+}
+
+#neural-signal {
+  background: rgba(0, 20, 0, 0.6);
+  border-color: rgba(100, 255, 100, 0.3);
+}
+
+/* Value indicators with corporate styling */
+#productivity-value,
+#engagement-value,
+#signal-strength,
+#compliance-level {
+  font-weight: bold;
+  font-size: 10px;
+}
+
+#data-collection-status {
+  color: rgba(0, 255, 100, 0.8);
+  margin-bottom: 3px;
+}
+
+#behavior-profile {
+  color: rgba(255, 200, 0, 0.7);
+  margin-bottom: 3px;
+}
+
+#attention-value {
+  color: rgba(255, 100, 100, 0.8);
+}
+
+/* Subtle pulsing animation for data collection */
+#data-collection-status {
+  animation: dataCollection 2s ease-in-out infinite;
+}
+
+@keyframes dataCollection {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1.0; }
+}
+
+#focus-time, #lives {
+  margin-bottom: 5px;
+}
+
+#calibration-status {
+  margin-bottom: 10px;
+  color: #cccccc;
+}
+
+#calibration-status.ready {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+#focus-status {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+#focus-status.focused {
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* Death overlay for creative installation */
+#death-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+  color: #ffffff;
+  font-family: 'CATelecopy-Regular', 'Courier New', monospace;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 2s ease;
+  cursor: none;
+  overflow: hidden;
+}
+
+#death-overlay.zichtbaar {
+  opacity: 1;
+}
+
+#death-overlay[style*="display: flex"] {
+  display: flex !important;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Subtle CRT Scanlines for death overlay */
+#death-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(15, 20, 25, 0.04) 3px,
+    rgba(15, 20, 25, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+  animation: subtleScanlines 0.35s linear infinite;
+}
+
+/* Screen Vignette for Depth */
+#death-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at center, 
+      transparent 0%, 
+      transparent 60%,
+      rgba(0, 0, 0, 0.1) 80%,
+      rgba(0, 0, 0, 0.25) 100%);
+  pointer-events: none;
+  z-index: 3;
+  animation: vignetteBreath 15s ease-in-out infinite;
+}
+
+#death-content {
+  position: relative;
+  z-index: 10;
+  background: 
+    linear-gradient(135deg, 
+      rgba(15, 20, 25, 0.6) 0%, 
+      rgba(20, 25, 30, 0.4) 50%,
+      rgba(15, 20, 25, 0.6) 100%);
+  padding: 40px;
+  border-radius: 2px;
+  text-align: center;
+  max-width: 600px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 0 25px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: elegantTitleReveal 2s ease-out 0.5s forwards;
+}
+
+#death-content h2 {
+  font-family: 'CATelecopy-Bold', 'Courier New', monospace;
+  font-size: 2.8rem;
+  font-weight: bold;
+  letter-spacing: 0.4rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 100, 100, 0.9); /* Changed to red for punishment feel */
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-shadow: 
+    0 0 20px rgba(255, 100, 100, 0.3), /* Red glow for dystopian feel */
+    0 0 40px rgba(200, 50, 50, 0.1),
+    0 0 60px rgba(150, 30, 30, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: dystopianGlow 8s ease-in-out infinite 1s;
+}
+
+#focus-summary {
+  font-family: 'CATelecopy-Medium', 'Courier New', monospace;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+  color: rgba(255, 150, 150, 0.85); /* Slightly red tint */
+  letter-spacing: 0.1rem;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  line-height: 1.4;
+}
+
+#focus-summary p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+#focus-summary p:first-child {
+  color: rgba(255, 100, 100, 0.9);
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+#export-art, #restart-session {
+  font-family: 'CATelecopy-Medium', 'Courier New', monospace;
+  background: 
+    linear-gradient(135deg, 
+      rgba(15, 20, 25, 0.6) 0%, 
+      rgba(20, 25, 30, 0.4) 50%,
+      rgba(15, 20, 25, 0.6) 100%);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  padding: 1rem 2.5rem;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  box-shadow: 
+    0 0 25px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: elegantButtonReveal 2s ease-out 1s forwards;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+#export-art:hover, #restart-session:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 35px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 6px 12px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(150, 150, 150, 0.04);
+  transform: translateY(-2px);
+}
+
+/* Jumpscare overlay for dramatic text popups */
+#jumpscare-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+#jumpscare-text {
+  font-family: 'CATelecopy-Bold', 'Courier New', monospace;
+  font-size: 4rem; /* Increased from 3rem */
+  font-weight: bold;
+  text-align: center;
+  color: rgba(255, 200, 200, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.4rem; /* Increased spacing */
+  line-height: 1.1; /* Tighter line height */
+  text-shadow: 
+    0 0 30px rgba(255, 200, 200, 0.8), /* Increased glow */
+    0 0 60px rgba(255, 150, 150, 0.6),
+    0 0 90px rgba(255, 100, 100, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.8); /* Increased shadow */
+  transform: scale(0);
+  opacity: 0;
+}
+
+/* EXTREME jumpscare animation keyframes - MUCH more violent */
+@keyframes jumpscareFlicker {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-5deg);
+    color: rgba(255, 200, 200, 0.9);
+    filter: brightness(100%) contrast(100%);
+  }
+  8% {
+    opacity: 1;
+    transform: scale(2.2) rotate(3deg);
+    color: rgba(255, 255, 255, 1);
+    filter: brightness(400%) contrast(300%);
+  }
+  15% {
+    opacity: 0.7;
+    transform: scale(1.5) rotate(-2deg);
+    color: rgba(255, 50, 50, 1);
+    filter: brightness(200%) contrast(200%);
+  }
+  22% {
+    opacity: 1;
+    transform: scale(2.8) rotate(4deg);
+    color: rgba(255, 255, 255, 1);
+    filter: brightness(500%) contrast(400%);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(1.8) rotate(-1deg);
+    color: rgba(255, 100, 100, 1);
+    filter: brightness(250%) contrast(250%);
+  }
+  38% {
+    opacity: 1;
+    transform: scale(2.5) rotate(2deg);
+    color: rgba(255, 255, 255, 1);
+    filter: brightness(450%) contrast(350%);
+  }
+  45% {
+    opacity: 0.9;
+    transform: scale(1.6) rotate(-3deg);
+    color: rgba(255, 150, 150, 1);
+    filter: brightness(300%) contrast(200%);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(2.1) rotate(1deg);
+    color: rgba(255, 255, 255, 1);
+    filter: brightness(400%) contrast(300%);
+  }
+  65% {
+    opacity: 0.85;
+    transform: scale(1.7) rotate(-1deg);
+    color: rgba(255, 200, 200, 1);
+    filter: brightness(200%) contrast(150%);
+  }
+  75% {
+    opacity: 0.95;
+    transform: scale(1.9) rotate(2deg);
+    color: rgba(255, 220, 220, 1);
+    filter: brightness(250%) contrast(200%);
+  }
+  85% {
+    opacity: 0.7;
+    transform: scale(1.4) rotate(-1deg);
+    color: rgba(255, 180, 180, 0.9);
+    filter: brightness(150%) contrast(120%);
+  }
+  95% {
+    opacity: 0.3;
+    transform: scale(0.8) rotate(0deg);
+    color: rgba(255, 200, 200, 0.6);
+    filter: brightness(100%) contrast(100%);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+    color: rgba(255, 200, 200, 0.0);
+    filter: brightness(100%) contrast(100%);
+  }
+}
+
+/* EXTREME screen flash effect */
+@keyframes screenFlash {
+  0% {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  5% {
+    background: rgba(255, 255, 255, 0.8);
+  }
+  10% {
+    background: rgba(255, 0, 0, 0.9);
+  }
+  15% {
+    background: rgba(255, 255, 255, 0.6);
+  }
+  20% {
+    background: rgba(255, 0, 0, 0.7);
+  }
+  25% {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  30% {
+    background: rgba(255, 0, 0, 0.8);
+  }
+  35% {
+    background: rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    background: rgba(255, 100, 100, 0.3);
+  }
+  100% {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Applied to jumpscare overlay during animation */
+.jumpscare-active {
+  opacity: 1 !important;
+  animation: screenFlash 2s ease-out;
+}
+
+.jumpscare-active #jumpscare-text {
+  animation: jumpscareFlicker 2s ease-out;
+}
+
+/* Add the missing animations from start_scherm.css */
+@keyframes subtleScanlines {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(4px); }
+}
+
+@keyframes vignetteBreath {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes elegantTitleReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    letter-spacing: 0.2rem;
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(5px) scale(1.02);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(0) scale(1);
+    letter-spacing: 0.6rem;
+  }
+}
+
+@keyframes elegantButtonReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  60% {
+    opacity: 0.6;
+    transform: translateY(-2px) scale(1.02);
+  }
+  100% {
+    opacity: 0.75;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dystopianGlow {
+  0%, 100% { 
+    opacity: 0.9;
+    text-shadow: 
+      0 0 20px rgba(255, 100, 100, 0.3),
+      0 0 40px rgba(200, 50, 50, 0.1),
+      0 0 60px rgba(150, 30, 30, 0.08),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  50% { 
+    opacity: 1;
+    text-shadow: 
+      0 0 25px rgba(255, 100, 100, 0.4),
+      0 0 50px rgba(200, 50, 50, 0.15),
+      0 0 75px rgba(150, 30, 30, 0.1),
+      0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+}
+@keyframes elegantTitleReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    letter-spacing: 0.2rem;
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(5px) scale(1.02);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(0) scale(1);
+    letter-spacing: 0.4rem;
+  }
+}
+
+/* NEW: Dystopian punishment glow animation */
+@keyframes dystopianGlow {
+  0%, 100% { 
+    opacity: 0.9;
+    text-shadow: 
+      0 0 20px rgba(255, 100, 100, 0.3),
+      0 0 40px rgba(200, 50, 50, 0.1),
+      0 0 60px rgba(150, 30, 30, 0.08),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.4rem;
+  }
+  50% { 
+    opacity: 1;
+    text-shadow: 
+      0 0 30px rgba(255, 100, 100, 0.5),
+      0 0 60px rgba(200, 50, 50, 0.2),
+      0 0 90px rgba(150, 30, 30, 0.12),
+      0 2px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.45rem;
+  }
+}
+
+@keyframes sophisticatedGlow {
+  0%, 100% { 
+    opacity: 0.9;
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.15),
+      0 0 40px rgba(150, 150, 150, 0.06),
+      0 0 60px rgba(120, 120, 120, 0.04),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.4rem;
+  }
+  50% { 
+    opacity: 1;
+    text-shadow: 
+      0 0 25px rgba(255, 255, 255, 0.2),
+      0 0 50px rgba(150, 150, 150, 0.08),
+      0 0 75px rgba(120, 120, 120, 0.04),
+      0 2px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.45rem;
+  }
+}
+
+@keyframes elegantButtonReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  60% {
+    opacity: 0.6;
+    transform: translateY(-2px) scale(1.02);
+  }
+  100% {
+    opacity: 0.75;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes subtleScanlines {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(4px); }
+}
+
+@keyframes vignetteBreath {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}

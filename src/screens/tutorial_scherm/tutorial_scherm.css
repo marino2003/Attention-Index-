@@ -1,0 +1,448 @@
+/* Tutorial Scherm - Retro Terminal Aesthetic */
+/* Matches the exact style of start_scherm.css */
+
+/* Custom Font Integration - Same as start screen */
+@font-face {
+  font-family: 'CATelecopy-Bold';
+  src: url('../../../fonts/CATelecopyTRIALB-Bold-BF671866d6e6897.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CATelecopy-Medium';
+  src: url('../../../fonts/CATelecopyTRIALC-Medium-BF671866d6e25fd.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CATelecopy-Regular';
+  src: url('../../../fonts/CATelecopyTRIALC-Regular-BF671866d7033bc.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.tutorial-scherm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+  color: #ffffff;
+  font-family: 'CATelecopy-Regular', 'Courier New', monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  transform: scale(0.95);
+  filter: blur(3px);
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Subtle CRT Scanlines - Same as start screen */
+.tutorial-scherm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(15, 20, 25, 0.04) 3px,
+    rgba(15, 20, 25, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+  animation: subtleScanlines 0.35s linear infinite;
+}
+
+/* Screen Vignette for Depth - Same as start screen */
+.tutorial-scherm::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at center, 
+      transparent 0%, 
+      transparent 60%,
+      rgba(0, 0, 0, 0.1) 80%,
+      rgba(0, 0, 0, 0.25) 100%);
+  pointer-events: none;
+  z-index: 3;
+  animation: vignetteBreath 15s ease-in-out infinite;
+}
+
+.tutorial-scherm.transitioning {
+  animation: seamlessTransition 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes seamlessTransition {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.05);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+    filter: blur(4px);
+  }
+}
+
+.tutorial-scherm.zichtbaar {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0px);
+  animation: elegantEntrance 1.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes elegantEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+    filter: blur(3px);
+  }
+  40% {
+    opacity: 0.6;
+    transform: scale(0.98) translateY(5px);
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
+    filter: blur(0px);
+  }
+}
+
+.tutorial-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Instructie Deel 1 - Elegant Style matching start screen */
+.instructie-deel-1 {
+  position: relative;
+  z-index: 20;
+  font-family: 'CATelecopy-Bold', 'Courier New', monospace;
+  font-size: 2.5rem;
+  font-weight: bold;
+  letter-spacing: 0.4rem;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.15),
+    0 0 40px rgba(150, 150, 150, 0.06),
+    0 0 60px rgba(120, 120, 120, 0.04),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.instructie-deel-1.zichtbaar {
+  animation: elegantTitleReveal 2s ease-out forwards, sophisticatedGlow 15s ease-in-out infinite 2s;
+}
+
+/* Instructie Deel 2 - Elegant Style matching start screen */
+.instructie-deel-2 {
+  position: relative;
+  z-index: 20;
+  font-family: 'CATelecopy-Bold', 'Courier New', monospace;
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 0.3rem;
+  margin-bottom: 4rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.12),
+    0 0 40px rgba(150, 150, 150, 0.05),
+    0 0 60px rgba(120, 120, 120, 0.03),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.instructie-deel-2.zichtbaar {
+  animation: elegantTitleReveal 2s ease-out forwards, subtleGlow 15s ease-in-out infinite 0.5s;
+}
+
+/* Loading Indicator - Elegant style matching start screen */
+.loading-indicator {
+  position: relative;
+  z-index: 20;
+  font-family: 'CATelecopy-Medium', 'Courier New', monospace;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.15),
+    0 0 20px rgba(150, 150, 150, 0.06),
+    0 0 30px rgba(120, 150, 120, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.loading-dots {
+  display: inline-block;
+  width: 1.2rem;
+  text-align: left;
+}
+
+.loading-dots::after {
+  content: '';
+  animation: typewriter 1.2s infinite;
+}
+
+@keyframes typewriter {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
+}
+
+/* Focus Punt Demo */
+.focus-punt-demo {
+  position: relative;
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  margin-bottom: 4rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.3),
+    inset 0 0 10px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: scale(0.8) rotateZ(180deg);
+  filter: blur(8px);
+  transition: all 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.focus-punt-demo.zichtbaar {
+  opacity: 1;
+  transform: scale(1) rotateZ(0deg);
+  filter: blur(0px);
+  animation: sophisticatedFocusPulse 4s ease-in-out infinite 1s;
+}
+
+/* Continue Button - Elegant style matching start screen */
+.tutorial-continue {
+  position: relative;
+  z-index: 10;
+  font-family: 'CATelecopy-Medium', 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.3rem;
+  text-align: center;
+  padding: 1rem 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  background: 
+    linear-gradient(135deg, 
+      rgba(15, 20, 25, 0.6) 0%, 
+      rgba(20, 25, 30, 0.4) 50%,
+      rgba(15, 20, 25, 0.6) 100%);
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  box-shadow: 
+    0 0 25px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  cursor: pointer;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.tutorial-continue:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 35px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 6px 12px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(150, 150, 150, 0.04);
+  transform: translateY(-2px);
+}
+
+/* Elegant animations from start screen */
+@keyframes elegantTitleReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    letter-spacing: 0.2rem;
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(5px) scale(1.02);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translateY(0) scale(1);
+    letter-spacing: 0.4rem;
+  }
+}
+
+@keyframes sophisticatedGlow {
+  0%, 100% { 
+    opacity: 0.9;
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.15),
+      0 0 40px rgba(150, 150, 150, 0.06),
+      0 0 60px rgba(120, 120, 120, 0.04),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.4rem;
+  }
+  50% { 
+    opacity: 1;
+    text-shadow: 
+      0 0 25px rgba(255, 255, 255, 0.2),
+      0 0 50px rgba(150, 150, 150, 0.08),
+      0 0 75px rgba(120, 120, 120, 0.04),
+      0 2px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.45rem;
+  }
+}
+
+@keyframes subtleGlow {
+  0%, 100% { 
+    opacity: 0.85;
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.12),
+      0 0 40px rgba(150, 150, 150, 0.05),
+      0 0 60px rgba(120, 120, 120, 0.03),
+      0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.3rem;
+  }
+  50% { 
+    opacity: 0.95;
+    text-shadow: 
+      0 0 25px rgba(255, 255, 255, 0.18),
+      0 0 50px rgba(150, 150, 150, 0.08),
+      0 0 75px rgba(120, 120, 120, 0.04),
+      0 3px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.32rem;
+  }
+}
+
+/* Responsive - Same as start screen */
+@media (max-width: 768px) {
+  .instructie-deel-1,
+  .instructie-deel-2 {
+    font-size: 2rem;
+    letter-spacing: 0.2rem;
+  }
+  
+  .tutorial-continue {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .instructie-deel-1,
+  .instructie-deel-2 {
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+  }
+  
+  .tutorial-continue {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
+  }
+}
+
+/* Camera Instructions Styling - Elegant hierarchy */
+.camera-instructies {
+  position: relative;
+  z-index: 19;
+  font-family: 'CATelecopy-Medium', 'Courier New', monospace;
+  text-align: center;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 1.8s ease-out, transform 1.8s ease-out;
+}
+
+.camera-instructies.zichtbaar {
+  opacity: 1;
+  transform: translateY(0);
+  animation: elegantCameraReveal 2.2s ease-out forwards;
+}
+
+.camera-titel {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 18px;
+  color: rgba(0, 255, 136, 0.9);
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 15px rgba(0, 255, 136, 0.4),
+    0 0 30px rgba(0, 255, 136, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.camera-tekst {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+  color: rgba(0, 255, 136, 0.75);
+  letter-spacing: 0.08rem;
+  line-height: 1.4;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 136, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  font-weight: 400;
+}
+
+@keyframes elegantCameraReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(25px) scale(0.95);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(3px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

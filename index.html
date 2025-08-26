@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/fav.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ATTENTION INDEX™ - Neural Analytics Platform</title>
+    
+    <!-- Custom Fonts -->
+    <style>
+      @font-face {
+        font-family: 'CATelecopy-Bold';
+        src: url('./fonts/CATelecopyTRIALB-Bold-BF671866d6e6897.otf') format('opentype');
+        font-weight: bold;
+        font-style: normal;
+      }
+      
+      @font-face {
+        font-family: 'CATelecopy-Medium';
+        src: url('./fonts/CATelecopyTRIALC-Medium-BF671866d6e25fd.otf') format('opentype');
+        font-weight: 500;
+        font-style: normal;
+      }
+      
+      @font-face {
+        font-family: 'CATelecopy-Regular';
+        src: url('./fonts/CATelecopyTRIALC-Regular-BF671866d7033bc.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+    
+    <!-- ASCII Kunst Styling -->
+    <link rel="stylesheet" href="./src/tuin/ascii_kunst_styling.css">
+    
+    <!-- Socket.IO client for Python backend communication -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
+    <!-- p5.js for generative art -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  </head>
+  <body>
+    <!-- Installation Canvas Container -->
+    <div id="installation-container">
+      <!-- Focus point indicator -->
+      <div id="focus-point"></div>
+      <!-- P5.js canvas will be inserted here -->
+      <div id="p5-canvas-container"></div>
+      <!-- Eye tracking feedback -->
+      <div id="tracking-feedback">
+        <div id="gaze-indicator"></div>
+      </div>
+      
+      <!-- Jumpscare overlay -->
+      <div id="jumpscare-overlay">
+        <div id="jumpscare-text"></div>
+      </div>
+    </div>
+    
+    <!-- Audio elements -->
+    <audio id="jumpscare-audio" preload="auto">
+      <source src="src/audio/jumpscare.wav" type="audio/wav">
+    </audio>
+    
+    <!-- Installatie controles en info -->
+    <div id="installation-ui">
+      <!-- Focus tijd en levens informatie -->
+      <div id="focus-info">
+        <div id="focus-time">GEËXTRAHEERDE AANDACHT: 0s</div>
+        <div id="lives">AANDACHT CREDITS: <span id="lives-count">2</span></div>
+        <div id="productivity-index" style="display: none;">PRODUCTIVITEIT INDEX: <span id="productivity-value">0%</span></div>
+        <div id="engagement-score" style="display: none;">BETROKKENHEID SCORE: <span id="engagement-value">LAAG</span></div>
+      </div>
+      
+      <!-- Subtle surveillance indicators -->
+      <div id="data-collection-panel">
+        <div id="data-collection-status">DATA: VERZAMELEN...</div>
+        <div id="behavior-profile">PROFIEL: ANALYSEREN</div>
+        <div id="attention-value">WAARDE: €0.00</div>
+        <div id="neural-signal" style="display: none;">NEURAAL SIGNAAL: <span id="signal-strength">ZWAK</span></div>
+        <div id="compliance-indicator" style="display: none;">GEDRAG COMPLIANCE: <span id="compliance-level">GEMIDDELD</span></div>
+      </div>
+    </div>
+    
+    <!-- Dood scherm overlay -->
+    <div id="death-overlay">
+      <div id="death-content">
+        <h2>AANDACHT FAILLISSEMENT</h2>
+        <div id="focus-summary">
+          <p>NEURAAL DEFICIT BEREIKT</p>
+          <p>Geëxtraheerde waarde: €<span id="total-focus-time">0</span></p>
+          <p>Cognitieve prestatie: ONVOLDOENDE</p>
+          <p>Aanbeveling: HERTRAINING VEREIST</p>
+        </div>
+        <button id="export-art">EXTRAHEER BIOMETRISCH PROFIEL</button>
+        <button id="restart-session">NIEUWE NEURAL SESSIE</button>
+      </div>
+    </div>
+    
+    <!-- Subtle attention monetization text -->
+    <div id="attention-footer">
+      <span id="attention-value-footer">Attention extracted: <span id="value-counter">0.00</span> credits</span>
+      <span id="processing-status">• Processing gaze patterns for optimization</span>
+    </div>
+    
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

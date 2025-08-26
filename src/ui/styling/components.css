@@ -1,0 +1,297 @@
+/* Focus Tuin - UI Component Styling */
+/* Specifieke styling voor UI componenten */
+
+/* Scherm transitie styling */
+.scherm-container {
+  position: relative;
+}
+
+.scherm-container.transitie-bezig {
+  pointer-events: none;
+}
+
+/* Scherm staat specifieke styling */
+.scherm-container.scherm-laden {
+  cursor: wait;
+}
+
+.scherm-container.scherm-kalibratie {
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+}
+
+.scherm-container.scherm-fout {
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+}
+
+/* Focus staat styling */
+.scherm-container.focus-actief {
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+}
+
+/* Focus punt animatie verbeteringen */
+#focus-point.focused {
+  animation: focusPuls 2s infinite ease-in-out;
+}
+
+@keyframes focusPuls {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    border-color: #ffffff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    border-color: #ffffff;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 1.0);
+  }
+}
+
+/* Gaze indicator animatie verbeteringen */
+#gaze-indicator {
+  transition: all 0.15s ease;
+  will-change: transform, left, top;
+}
+
+#gaze-indicator.visible {
+  opacity: 0.9;
+}
+
+#gaze-indicator.focused {
+  animation: gazeGericht 1.5s infinite ease-in-out;
+}
+
+@keyframes gazeGericht {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.4);
+  }
+}
+
+/* Kalibratie controls styling */
+#calibration-controls {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#calibration-controls:hover {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+#start-calibration-btn {
+  background: linear-gradient(135deg, #ffffff, #cccccc) !important;
+  border: none !important;
+  color: #000000 !important;
+  padding: 10px 20px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.4) !important;
+  transition: all 0.2s ease !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#start-calibration-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.6) !important;
+  background: linear-gradient(135deg, #ffffff, #dddddd) !important;
+}
+
+#start-calibration-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Status indicatoren */
+.calibration-status {
+  transition: color 0.3s ease;
+  font-weight: 500;
+  color: #cccccc !important;
+}
+
+.calibration-status.ready {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+#focus-status {
+  transition: all 0.3s ease;
+  color: #cccccc !important;
+}
+
+#focus-status.focused {
+  color: #ffffff !important;
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* Camera prompt styling */
+#camera-prompt {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px !important;
+  padding: 12px !important;
+  margin-top: 12px !important;
+  font-size: 11px !important;
+  transition: all 0.3s ease;
+  color: #cccccc !important;
+}
+
+#camera-prompt:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Visuele accenten */
+.accent-focus-start {
+  animation: focusStartAccent 0.5s ease-out;
+}
+
+.accent-focus-stop {
+  animation: focusStopAccent 0.3s ease-in;
+}
+
+@keyframes focusStartAccent {
+  0% {
+    box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.3);
+  }
+  100% {
+    box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes focusStopAccent {
+  0% {
+    box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    box-shadow: inset 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* Notificatie systeem */
+.notificatie {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  max-width: 300px;
+  word-wrap: break-word;
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.notificatie-succes {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.notificatie-waarschuwing {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #cccccc !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.notificatie-fout {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #ff4444 !important;
+  border: 1px solid rgba(255, 68, 68, 0.3) !important;
+}
+
+/* Performance optimalisaties */
+#p5-canvas-container {
+  will-change: transform;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+#tracking-feedback {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Responsive aanpassingen */
+@media (max-width: 768px) {
+  #installation-ui {
+    top: 15px;
+    left: 15px;
+    font-size: 12px;
+  }
+  
+  #calibration-controls {
+    padding: 10px;
+  }
+  
+  #start-calibration-btn {
+    padding: 8px 16px !important;
+    font-size: 11px !important;
+  }
+  
+  #focus-point {
+    width: 16px;
+    height: 16px;
+  }
+  
+  #gaze-indicator {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@media (max-height: 600px) {
+  #installation-ui {
+    font-size: 11px;
+  }
+  
+  #camera-prompt {
+    font-size: 10px !important;
+    padding: 8px !important;
+  }
+}
+
+/* High contrast mode ondersteuning */
+@media (prefers-contrast: high) {
+  #focus-point {
+    border-width: 3px;
+  }
+  
+  .calibration-status.ready {
+    text-shadow: none;
+    font-weight: bold;
+  }
+  
+  #gaze-indicator {
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Reduced motion ondersteuning */
+@media (prefers-reduced-motion: reduce) {
+  #focus-point,
+  #gaze-indicator,
+  .scherm-container,
+  #calibration-controls,
+  #start-calibration-btn {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .accent-focus-start,
+  .accent-focus-stop {
+    animation: none !important;
+  }
+}
