@@ -1,9 +1,9 @@
 # 👁️ Attention Index™
 
 <!-- Demo gif as banner -->
-<p align="center">
-  <img src="public/assets/snapshot_3.png" alt="banner" width="100%" />
-</p>
+[![Watch the video](https://img.youtube.com/vi/qHU2RhDsgqM/maxresdefault.jpg)](https://youtu.be/qHU2RhDsgqM)
+
+### [Bekijk de demo video](https://youtu.be/qHU2RhDsgqM)
 
 ## Disclaimer
 Deze inhoud kan flitsende lichten, jumpscares en beelden bevatten die epileptische aanvallen of schrikreacties kunnen veroorzaken.
