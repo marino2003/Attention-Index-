@@ -27,7 +27,7 @@ Attention Index™ is een interactieve installatie die de blik van de bezoeker v
 - Python 3.11
 - Node.js 16+
 - Webcam (externe USB webcam aanbevolen)
-- Chrome of Edge (actuele versie)
+- Webbrowser
 
 ## Snelle installatie
 
@@ -91,5 +91,3 @@ frontend/       # JS code voor rendering en UI
 Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 
 ---
-
-*Plaats hier extra afbeeldingen of een korte video zodat bezoekers meteen zien wat er gebeurt.*
