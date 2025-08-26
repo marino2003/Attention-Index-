@@ -309,6 +309,25 @@ export class SchermFlowManager {
 
 Deze modulaire architectuur zorgt ervoor dat elk onderdeel onafhankelijk kan worden ontwikkeld en getest, terwijl ze samen een coherente gebruikerservaring vormen.
 
+## Valkuilen, Tips & Maker-bestanden
+
+### ⚠️ Bekende Valkuilen
+- **Verlichting**: Zorg voor gelijkmatige gezichtsverlichting, vermijd tegenlicht
+- **Browser**: Chrome/Edge/FireFox werken het beste, Safari kan problemen geven
+- **Kalibratie**: Neem tijd voor goede kalibratie - beïnvloedt hele ervaring
+
+### 💡 Maker Tips
+- **Camera test**: Run `python debug_camera_preview.py` om camera te testen
+
+### 📁 Belangrijke Maker-bestanden
+```
+install.bat              # Automatische installatie (Windows)
+start-servers-debug.bat  # Debug modus met logging
+debug_camera_preview.py  # Test camera functionaliteit
+src/core/focus_zone_config.js  # Focus zone instellingen
+src/tuin/ascii_config.js       # ASCII art configuratie
+```
+
 
 ## License
 
