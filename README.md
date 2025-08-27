@@ -1,12 +1,14 @@
 # 👁️ Attention Index™
 
+## Disclaimer
+Deze inhoud kan flitsende lichten, jumpscares en beelden bevatten die epileptische aanvallen of schrikreacties kunnen veroorzaken.
+
 <!-- Demo gif as banner -->
 [![Watch the video](https://img.youtube.com/vi/qHU2RhDsgqM/maxresdefault.jpg)](https://youtu.be/qHU2RhDsgqM)
 
 ### [Bekijk de demo video](https://youtu.be/qHU2RhDsgqM)
 
-## Disclaimer
-Deze inhoud kan flitsende lichten, jumpscares en beelden bevatten die epileptische aanvallen of schrikreacties kunnen veroorzaken.
+
 
 ## Inleiding
 
@@ -14,7 +16,7 @@ Stel je een wereld voor waarin je blik nooit meer vrij is. Een systeem dat je og
 
 ## Concept
 
-Attention Index™ is een interactieve installatie die de blik van de bezoeker volgt en die blik realtime omzet in ASCII visuals. De installatie voelt licht dystopisch: het systeem vraagt constant om aandacht en laat zien hoe digitale systemen onze focus claimen. Ik vertel niet alles. De installatie schetst een wereld waarin aandacht een valuta is, zodat bezoekers zelf verbindingen kunnen leggen.
+Attention Index™ is een interactieve installatie die de blik van de bezoeker volgt en die blik realtime omzet in ASCII visuals. De installatie voelt licht dystopisch: het systeem vraagt constant om aandacht en laat zien hoe digitale systemen onze focus claimen. De installatie schetst een wereld waarin aandacht een valuta is.
 
 ## Kort overzicht
 
@@ -26,7 +28,7 @@ Attention Index™ is een interactieve installatie die de blik van de bezoeker v
 
 - Python 3.11
 - Node.js 16+
-- Webcam (externe USB webcam aanbevolen)
+- Webcam 
 - Webbrowser
 
 ## Snelle installatie
@@ -250,6 +252,54 @@ export class ASCIIKunst {
 }
 ```
 
+### 📤 ASCII Export & Biometrisch Profiel Systeem
+
+Het export systeem legt de real-time samengestelde ASCII kunstwerken vast als "biometrische profielen":
+
+```javascript
+// src/tuin/ascii_kunst.js - Export van real-time gemanipuleerde frames
+export class ASCIIKunst {
+  exporteerASCIIKunst() {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    let exportText = 'Face Manipulation ASCII Art\n';
+    
+    // Export huidige asciiCanvas state - dit is GEEN webcam snapshot
+    // maar een real-time samengesteld kunstwerk
+    for (let y = 0; y < this.asciiCanvas.length; y++) {
+      exportText += this.asciiCanvas[y].join('') + '\n';
+    }
+    
+    const blob = new Blob([exportText], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.download = `face_manipulation_${timestamp}.txt`;
+    link.click();
+    
+    return { success: true, filename: `face_manipulation_${timestamp}.txt` };
+  }
+  
+  generateManipulatedFrame() {
+    // Start met webcam fundament van backend
+    this.asciiCanvas = this.webcamProcessor.getFoundationLayer();
+    
+    // Pas gaze-gebaseerde face manipulation toe
+    if (this.isVisible && this.laatsteGazePositie) {
+      this.asciiCanvas = this.faceDistorter.manipulateFace(
+        this.asciiCanvas, this.laatsteGazePositie
+      );
+    }
+    
+    // Voeg real-time ASCII effecten toe
+    this.asciiCanvas = this.asciiEffecten.verwerkEffecten(this.asciiCanvas, focusData);
+  }
+}
+```
+
+**Wat wordt geëxporteerd:**
+- **Geen webcam snapshot**, maar een **real-time samengesteld kunstwerk**
+- Laatste webcam frame (max 67ms oud bij 15 FPS) als ASCII fundament
+- ASCII effecten gebaseerd op je focus patronen tijdens de sessie
+- Twee formaten: `.txt` (rauwe ASCII) en `.png` (CRT-style rendering)
+
 ### 🎭 Event-Driven Communicatie
 
 Alle modules communiceren via een event systeem voor loose coupling:
@@ -308,25 +358,6 @@ export class SchermFlowManager {
 ```
 
 Deze modulaire architectuur zorgt ervoor dat elk onderdeel onafhankelijk kan worden ontwikkeld en getest, terwijl ze samen een coherente gebruikerservaring vormen.
-
-## Valkuilen, Tips & Maker-bestanden
-
-### ⚠️ Bekende Valkuilen
-- **Verlichting**: Zorg voor gelijkmatige gezichtsverlichting, vermijd tegenlicht
-- **Browser**: Chrome/Edge/FireFox werken het beste, Safari kan problemen geven
-- **Kalibratie**: Neem tijd voor goede kalibratie - beïnvloedt hele ervaring
-
-### 💡 Maker Tips
-- **Camera test**: Run `python debug_camera_preview.py` om camera te testen
-
-### 📁 Belangrijke Maker-bestanden
-```
-install.bat              # Automatische installatie (Windows)
-start-servers-debug.bat  # Debug modus met logging
-debug_camera_preview.py  # Test camera functionaliteit
-src/core/focus_zone_config.js  # Focus zone instellingen
-src/tuin/ascii_config.js       # ASCII art configuratie
-```
 
 
 ## License
