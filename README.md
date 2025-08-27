@@ -295,7 +295,6 @@ export class ASCIIKunst {
 ```
 
 **Wat wordt geëxporteerd:**
-- **Geen webcam snapshot**, maar een **real-time samengesteld kunstwerk**
 - Laatste webcam frame (max 67ms oud bij 15 FPS) als ASCII fundament
 - ASCII effecten gebaseerd op je focus patronen tijdens de sessie
 - Twee formaten: `.txt` (rauwe ASCII) en `.png` (CRT-style rendering)
